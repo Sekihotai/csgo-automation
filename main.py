@@ -7,23 +7,18 @@ config = {
     "cookie": "",
     "delay": 0
 }
+config_json = "config.json"
 daily_case = "https://csgocases.com/case/daily-free"
 request_module = requests
 
-
-#r = request_module.get("https://csgocases.com/")
-
-# if "href" in r.text:
-#     print("yes")
-# else:
-#     print("no")
-
-#if "challenge-error-text" in r.text:
-    #request_module = cloudscraper.create_scraper()
-
-if os.path.isfile("config.json") != True:
+if os.path.isfile(config_json) != True:
+    ws = open(config_json, "w")
     config["cookie"] = input("Paste in the login cookie")
-    open("config.json", "w").write(json.dumps(config))
+    ws.write(json.dumps(config))
+    ws.close()
+
+    rs = open(config_json, "r")
+    config = json.loads(rs.read())
 else: 
     config = json.loads(open("config.json", "r").read())
     print(config)
