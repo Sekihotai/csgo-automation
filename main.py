@@ -5,8 +5,9 @@ import json
 import cloudscraper
 
 global config 
+global request
+request = requests
 ##global daily_case = "https://csgocases.com/case/daily-free"
-##global request_module = requests
 
 def create_config():
     config = {
@@ -27,4 +28,11 @@ def create_config():
         config = json.loads(rs.read())
         print(config["cookie"])
 
-create_config()
+
+def check_for_cloudflare():
+    r = request.get("https://csgocases.com/")
+    if "challenge-form" in r.text:
+        request = cloudscraper.create_scraper()
+
+check_for_cloudflare()    
+#create_config()
