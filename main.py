@@ -25,6 +25,6 @@ def create_config():
     else: 
         rs = open("config.json", "r")
         config = json.loads(rs.read())
-        print(config)
+        print(config["cookie"])
 
 create_config()
