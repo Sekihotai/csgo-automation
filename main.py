@@ -18,23 +18,26 @@ def create_config():
         print(cookie)
         rs.close()
 
-    if os.path.isfile("cookie.dat") != True:
+
+    def write_cookie():
         cookie = input("Please paste in the login cookie: ")
-        if cookie != "":
-            ws = open("cookie.dat", "w")
-            ws.write(cookie)
-            ws.close()
-        else:
-            cookie = input("Cookie cannot be empty. Please paste in the login cookie: ")
-    else: 
+        ws = open("cookie.dat", "w")
+        ws.write(cookie)
+        ws.close()
         read_cookie()
+
+    if os.path.isfile("cookie.dat") != True: 
+        write_cookie()
+    else:
+        read_cookie()
+            
+
+    
         
 
 def open_cases():
-    # global config
     # name_case = "https://csgocases.com/case/daily-free"
     # avatar_case = "https://csgocases.com/case/daily-free-2"
-    # cookies = dict(symfocms = config["symfocms"])
     driver = uc.Chrome()
     driver.get("https://csgocases.com")
     WebDriverWait(driver, 20).until(
@@ -46,8 +49,6 @@ def open_cases():
     WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.CLASS_NAME, "button-case")) 
     )
-    print(driver.get_cookies())
-    driver.save_screenshot("lol.png")
     driver.quit()
  
 create_config()
