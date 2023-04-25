@@ -1,19 +1,19 @@
 import requests
 import os, sys
 import json
-import cfscrape
+import time
+import undetected_chromedriver as uc
 
-global config 
-global request
+from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.remote.webdriver import By
+import selenium.webdriver.support.expected_conditions as EC  
+from selenium.webdriver.support.wait import WebDriverWait
 
+config = {"cookie": "", "delay": 0}
+request = requests
 
 def create_config():
-    global config 
-    config = {
-        "cookie": "",
-        "delay": 0
-    }
-        
+    global config
     if os.path.isfile("config.json") != True:
         config["cookie"] = input("Please paste in the login cookie: ")
         if config["cookie"] != "":
@@ -26,22 +26,19 @@ def create_config():
         rs = open("config.json", "r")
         config = json.loads(rs.read())
 
-
-def check_for_cloudflare():
-    global request
-    request = requests
-    r = request.get("https://csgocases.com/")
-    if "Enable JavaScript and cookies to continue" in r.text:
-        request = cfscrape.create_scraper()
-
 def open_cases():
-    name_case = "https://csgocases.com/case/daily-free"
-    avatar_case = "https://csgocases.com/case/daily-free-2"
-    cookies = dict(symfocms = config["cookie"])
+    # global config
+    # global request
+    # name_case = "https://csgocases.com/case/daily-free"
+    # avatar_case = "https://csgocases.com/case/daily-free-2"
+    # cookies = dict(symfocms = config["cookie"])
+    driver = uc.Chrome()
+    driver.get("https://csgocases.com")
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "nick-full"))
+    )
+    driver.save_screenshot("lol.png")
+    driver.quit()
+ 
 
-    r = request.get(name_case, cookies=cookies)
-    print(r.text)
-
-create_config()
-check_for_cloudflare()    
 open_cases()
