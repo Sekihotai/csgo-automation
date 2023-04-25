@@ -1,10 +1,14 @@
-import time
 import requests
 import undetected_chromedriver as uc
+import random
+import time
 from selenium.webdriver.remote.webdriver import By
 import selenium.webdriver.support.expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
+def random_delay():
+    delay = random.randint(0, )
+    
 
 def main_process():
     options = uc.ChromeOptions()
@@ -38,7 +42,7 @@ def send_webhook(case, reward, thumbnail):
     data = {
         "embeds": [
             {
-                "title": f'Case Opened: {case}',
+                "title": f'Case Opened: "{case}"',
                 "url": "https://csgocases.com/r/u70633zei",
                 "color": 16774400,
                 "fields": [
@@ -47,10 +51,6 @@ def send_webhook(case, reward, thumbnail):
                         "value": reward
                     }
                 ],
-                "footer": {
-                    "text": "spiritual is stupid"
-                },
-                "timestamp": "2023-04-11T19:23:00.000Z",
                  "thumbnail": {
                   "url": thumbnail
                   }
