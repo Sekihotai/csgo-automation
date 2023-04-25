@@ -11,6 +11,13 @@ cookie = ""
 
 def create_config():
     global cookie
+
+    def read_cookie():
+        rs = open("cookie.dat", "r")
+        cookie = rs.read()
+        print(cookie)
+        rs.close()
+
     if os.path.isfile("cookie.dat") != True:
         cookie = input("Please paste in the login cookie: ")
         if cookie != "":
@@ -18,12 +25,10 @@ def create_config():
             ws.write(cookie)
             ws.close()
         else:
-            os.execl(sys.executable, sys.executable, *sys.argv)
+            cookie = input("Cookie cannot be empty. Please paste in the login cookie: ")
     else: 
-        rs = open("cookie.dat", "r")
-        cookie = rs.read()
-        print(cookie)
-        rs.close()
+        read_cookie()
+        
 
 def open_cases():
     # global config
