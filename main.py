@@ -1,43 +1,41 @@
 import requests
 import undetected_chromedriver as uc
-import random
-import time
 from selenium.webdriver.remote.webdriver import By
 import selenium.webdriver.support.expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-def random_delay():
-    delay = random.randint(0, )
-    
-
 def main_process():
-    options = uc.ChromeOptions()
-    options.user_data_dir = "C:/Users/Andrew/AppData/Local/Google/Chrome/User Data"
-    options.add_argument("profile-directory=Profile 1")
-    driver = uc.Chrome(options=options)
+    def open_cases(url): 
+        options = uc.ChromeOptions()
+        options.user_data_dir = "C:/Users/Andrew/AppData/Local/Google/Chrome/User Data"
+        options.add_argument("profile-directory=Profile 1")
+        driver = uc.Chrome(options=options)
 
-    driver.get("https://csgocases.com/case/ez-1-100-profit")
-    WebDriverWait(driver, 20).until(
-        EC.element_to_be_clickable((By.ID, "lotteryStart"))
-    )
 
-    case = driver.find_element(By.TAG_NAME, 'h1').text
-    thumbnail = driver.find_element(By.CLASS_NAME, 'case-img').get_attribute("src")
-    
-    driver.find_element(By.CLASS_NAME, "case-test-button").click()
-    WebDriverWait(driver, 20).until(
-        EC.visibility_of_element_located(
-            (By.XPATH, "//h1[@class='ng-scope']//span[1]"))
-    )
+        driver.get(url)
+        WebDriverWait(driver, 20).until(
+            EC.element_to_be_clickable((By.ID, "lotteryStart"))
+        )
 
-    reward = driver.find_element(By.XPATH, "//h1[@class='ng-scope']//span[1]").text
+        case = driver.find_element(By.TAG_NAME, 'h1').text
+        thumbnail = driver.find_element(By.CLASS_NAME, 'case-img').get_attribute("src")
+        
+        driver.find_element((By.ID, "lotteryStart")).click()
+        WebDriverWait(driver, 20).until(
+            EC.visibility_of_element_located(
+                (By.XPATH, "//h1[@class='ng-scope']//span[1]"))
+        )
 
-    
-    send_webhook(case, reward, thumbnail)
+        reward = driver.find_element(By.XPATH, "//h1[@class='ng-scope']//span[1]").text
 
+        driver.quit()
+        send_webhook(case, reward, thumbnail)
+
+    open_cases("https://csgocases.com/case/daily-free")
+    open_cases("https://csgocases.com/case/daily-free-2")
 
 def send_webhook(case, reward, thumbnail):
-    webhook_url = "https://discord.com/api/webhooks/1004215996908843060/hAbD6iuAl1_qHUkjHJxAWyhkulX5AYrwS3abvSXSPCsW7pivUeKYFB6GkFNtrigwswKv"
+    webhook_url = "https://canary.discord.com/api/webhooks/1100522199607164938/6sVgPu3_O8rKNCFy5KZcvAeWRVJnvDJ2xvKrbYZ6G99PQENOHhqGjQZ3qqS3gBLLjerw"
 
     data = {
         "embeds": [
