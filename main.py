@@ -32,8 +32,8 @@ def open_cases():
     # cookies = dict(symfocms = config["symfocms"])
     driver = uc.Chrome()
     driver.get("https://csgocases.com")
-    WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.CLASS_NAME, "nick-full"))
+    WebDriverWait(driver, 20).until(
+        EC.element_to_be_clickable((By.CLASS_NAME, "button-case")) 
     )
     driver.save_screenshot("lol.png")
     driver.quit()
