@@ -1,5 +1,4 @@
 import os, sys
-import json
 import time
 import undetected_chromedriver as uc
 
@@ -8,22 +7,23 @@ from selenium.webdriver.remote.webdriver import By
 import selenium.webdriver.support.expected_conditions as EC  
 from selenium.webdriver.support.wait import WebDriverWait
 
-config = {"symfocms": ""}
-
+cookie = ""
 
 def create_config():
-    global config
-    if os.path.isfile("config.json") != True:
-        config["cookie"] = input("Please paste in the login cookie: ")
-        if config["symfocms"] != "":
-            ws = open("config.json", "w")
-            ws.write(json.dumps(config))
+    global cookie
+    if os.path.isfile("cookie.dat") != True:
+        cookie = input("Please paste in the login cookie: ")
+        if cookie != "":
+            ws = open("cookie.dat", "w")
+            ws.write(cookie)
             ws.close()
         else:
             os.execl(sys.executable, sys.executable, *sys.argv)
     else: 
-        rs = open("config.json", "r")
-        config = json.loads(rs.read())
+        rs = open("cookie.dat", "r")
+        cookie = rs.read()
+        print(cookie)
+        rs.close()
 
 def open_cases():
     # global config
@@ -35,8 +35,15 @@ def open_cases():
     WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.CLASS_NAME, "button-case")) 
     )
+    driver.delete_cookie("symfocms")
+    driver.add_cookie({"name" : "symfocms", "path" : "/", "sameSite" : "Lax", "domain" : "csgocases.com", "value" : cookie})
+    driver.refresh()
+    WebDriverWait(driver, 20).until(
+        EC.element_to_be_clickable((By.CLASS_NAME, "button-case")) 
+    )
+    print(driver.get_cookies())
     driver.save_screenshot("lol.png")
     driver.quit()
  
-
+create_config()
 open_cases()
