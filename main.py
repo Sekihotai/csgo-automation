@@ -1,15 +1,14 @@
 import requests
-import os
-import sys
+import os, sys
 import json
-import cloudscraper
+import cfscrape
 
 global config 
 global request
-request = requests
-##global daily_case = "https://csgocases.com/case/daily-free"
+
 
 def create_config():
+    global config 
     config = {
         "cookie": "",
         "delay": 0
@@ -26,13 +25,23 @@ def create_config():
     else: 
         rs = open("config.json", "r")
         config = json.loads(rs.read())
-        print(config["cookie"])
 
 
 def check_for_cloudflare():
+    global request
+    request = requests
     r = request.get("https://csgocases.com/")
-    if "challenge-form" in r.text:
-        request = cloudscraper.create_scraper()
+    if "Enable JavaScript and cookies to continue" in r.text:
+        request = cfscrape.create_scraper()
 
+def open_cases():
+    name_case = "https://csgocases.com/case/daily-free"
+    avatar_case = "https://csgocases.com/case/daily-free-2"
+    cookies = dict(symfocms = config["cookie"])
+
+    r = request.get(name_case, cookies=cookies)
+    print(r.text)
+
+create_config()
 check_for_cloudflare()    
-#create_config()
+open_cases()
