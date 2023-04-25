@@ -1,4 +1,3 @@
-import requests
 import os, sys
 import json
 import time
@@ -9,14 +8,14 @@ from selenium.webdriver.remote.webdriver import By
 import selenium.webdriver.support.expected_conditions as EC  
 from selenium.webdriver.support.wait import WebDriverWait
 
-config = {"cookie": "", "delay": 0}
-request = requests
+config = {"symfocms": ""}
+
 
 def create_config():
     global config
     if os.path.isfile("config.json") != True:
         config["cookie"] = input("Please paste in the login cookie: ")
-        if config["cookie"] != "":
+        if config["symfocms"] != "":
             ws = open("config.json", "w")
             ws.write(json.dumps(config))
             ws.close()
@@ -28,14 +27,13 @@ def create_config():
 
 def open_cases():
     # global config
-    # global request
     # name_case = "https://csgocases.com/case/daily-free"
     # avatar_case = "https://csgocases.com/case/daily-free-2"
-    # cookies = dict(symfocms = config["cookie"])
+    # cookies = dict(symfocms = config["symfocms"])
     driver = uc.Chrome()
     driver.get("https://csgocases.com")
     WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "nick-full"))
+        EC.element_to_be_clickable((By.CLASS_NAME, "nick-full"))
     )
     driver.save_screenshot("lol.png")
     driver.quit()
