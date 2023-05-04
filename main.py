@@ -9,7 +9,6 @@ def main_process():
     def open_cases(url): 
         options = uc.ChromeOptions()
         options.user_data_dir = "C:/Users/Andrew/AppData/Local/Google/Chrome/User Data"
-        options.add_argument("--headless")
         options.add_argument("profile-directory=Profile 1")
         driver = uc.Chrome(options=options)
 
