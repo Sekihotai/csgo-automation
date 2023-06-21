@@ -8,7 +8,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 def open_cases(url):
     options = uc.ChromeOptions()
-    options.user_data_dir = "C:/Users/Andrew/AppData/Local/Google/Chrome/User Data"
+    options.user_data_dir = "INSERT CHROME USER DATA DIR HERE"
     options.add_argument("profile-directory=Profile 1")
     driver = uc.Chrome(options=options)
 
@@ -34,7 +34,7 @@ def open_cases(url):
 
 
 def send_webhook(case, reward, thumbnail, balance):
-    webhook_url = "https://canary.discord.com/api/webhooks/1100522199607164938/6sVgPu3_O8rKNCFy5KZcvAeWRVJnvDJ2xvKrbYZ6G99PQENOHhqGjQZ3qqS3gBLLjerw"
+    webhook_url = "INSERT WEBHOOK URL HERE"
     data = {
         "embeds": [
             {
